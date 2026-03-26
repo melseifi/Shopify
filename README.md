@@ -1,6 +1,9 @@
-# Returns Prediction (Pair-Programming Practice)
+# Pair Programming Practice (Shopify-Style)
 
-This is a self-contained ML exercise you can run locally: predict whether an ecommerce order will be returned using only signals available at purchase time.
+This repo contains two small, self-contained exercises you can use to practice a 75-minute pair-programming interview in Python:
+
+- OOP Shopping Cart CLI (recommended for the "design + implement + test" flow)
+- ML Returns Prediction baseline (optional, for ML-flavored discussion)
 
 ## Setup
 
@@ -10,9 +13,22 @@ Use your project venv (PyCharm usually creates/uses `.venv`).
 python -m pip install -r requirements.txt
 ```
 
-## Run (train + eval)
+## OOP Exercise: Shopping Cart CLI
 
-This repo uses an `src/` layout. If you have not installed the package, run with `PYTHONPATH=src`.
+Run:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m shop.cli
+```
+
+Commands (in the app): `list`, `add <SKU> <QTY>`, `remove <SKU> <QTY>`, `view`, `checkout`, `quit`.
+
+Core logic lives in `src/shop/domain.py` and is covered by unit tests in `tests/test_shop_domain.py`.
+
+## ML Exercise: Returns Prediction (train + eval)
+
+Run:
 
 ```powershell
 $env:PYTHONPATH="src"
@@ -33,23 +49,13 @@ $env:PYTHONPATH="src"
 pytest -q
 ```
 
-## OOP Pairing Practice (Shopping Cart CLI)
-
-Run:
-
-```powershell
-$env:PYTHONPATH="src"
-python -m shop.cli
-```
-
 ## What To Discuss In An Interview
 
-Edge cases and risks worth calling out while coding:
+High-signal points to narrate while pairing:
 
-- **Leakage**: never use post-purchase signals (refund issued date, delivery scan outcomes, support tickets) when predicting at purchase time.
-- **Time split**: use a time-based split to avoid training on “future” behavior.
-- **Imbalance**: returns are often rare; include PR-AUC and threshold selection aligned to business constraints.
-- **Unknown categories**: new countries/devices/categories should not crash inference (`handle_unknown="ignore"`).
-- **Missing values**: robust imputers; explicit checks for empty train/test after splitting.
-- **Calibration**: logistic regression is often reasonable, but you might still need probability calibration for decisioning.
-- **Monitoring**: drift in category mix/price distribution; performance by slice (country/category/device).
+- OOP: invariants, input validation, separating domain logic from CLI parsing, and tests for tricky cases (remove too many, empty checkout, duplicates).
+- ML leakage: never use post-purchase signals (refund issued date, delivery scan outcomes, support tickets) when predicting at purchase time.
+- ML time split: use a time-based split to avoid training on "future" behavior.
+- ML imbalance: include PR-AUC and threshold selection aligned to business constraints.
+- ML robustness: unknown categories and missing values should not crash inference.
+
