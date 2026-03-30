@@ -26,6 +26,17 @@ Commands (in the app): `list`, `add <SKU> <QTY>`, `remove <SKU> <QTY>`, `view`, 
 
 Core logic lives in `src/shop/domain.py` and is covered by unit tests in `tests/test_shop_domain.py`.
 
+## OOP Exercise: Inventory Management (V1)
+
+Run:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m inventory.cli
+```
+
+Core logic lives in `src/inventory/domain.py` and is covered by unit tests in `tests/test_inventory_v1.py`.
+
 ## ML Exercise: Returns Prediction (train + eval)
 
 Run:
@@ -58,4 +69,3 @@ High-signal points to narrate while pairing:
 - ML time split: use a time-based split to avoid training on "future" behavior.
 - ML imbalance: include PR-AUC and threshold selection aligned to business constraints.
 - ML robustness: unknown categories and missing values should not crash inference.
-
